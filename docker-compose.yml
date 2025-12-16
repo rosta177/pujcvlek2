@@ -18,7 +18,7 @@ services:
       - rentalcore_uploads:/app/uploads
       - rentalcore_logs:/app/logs
       - rentalcore_archives:/app/archives   depends_on
-      - db_data  # Pokud máš DB kontejner, jinak odstraň
+      - db_data:  # Pokud máš DB kontejner, jinak odstraň
 
   db:  # MySQL kontejner, pokud nechceš použít XAMPP – pro lokální test
     image: mysql:8.0
