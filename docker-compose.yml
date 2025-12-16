@@ -26,7 +26,7 @@ services:
       MYSQL_DATABASE: vleky_db
       MYSQL_ROOT_PASSWORD: root  # Změň na silné heslo
     volumes:
-      - db_data:/var/lib/mysql  # Persistent DB data
+      - db_data:/var/lib/mysq  # Persistent DB data
 
 volumes:
   rentalcore_uploads:
