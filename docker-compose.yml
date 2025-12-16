@@ -5,7 +5,7 @@
 services:
   rentalcore:
     # Use the image from Docker Hub instead of building
-    image: nbt4/rentalcore:latest
+    image: pujcvlek
     container_name: rentalcore
     hostname: rentalcore
     restart: unless-stopped
