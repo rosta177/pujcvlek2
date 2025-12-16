@@ -1,43 +1,66 @@
-version: '3.8'
-
 services:
   rentalcore:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: rentalcore-app
     hostname: rentalcore
     restart: unless-stopped
     ports:
       - "8000:80"
     environment:
-      DB_HOST: db
-      DB_PORT: 3306
-      DB_NAME: vleky_db
-      DB_USERNAME: root
-      DB_PASSWORD: root
-      ENCRYPTION_KEY: super_tajny_kluc_32_znaku_dlouhy_vymysli_si
-      GIN_MODE: debug
-      LOG_LEVEL: info
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT:-3306}
+      - DB_NAME=${DB_NAME}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - ENCRYPTION_KEY=${A3bCdE5fGh7iJk9L mN0pQr2S tUv4wXy6z}
+      - GIN_MODE=${GIN_MODE:-debug}
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+      - SERVER_HOST=${SERVER_HOST:-0.0.0.0}
+      - SERVER_PORT=${SERVER_PORT:-80}
     volumes:
       - rentalcore_uploads:/app/uploads
       - rentalcore_logs:/app/logs
       - rentalcore_archives:/app/archives
     depends_on:
-      - db
+      - db-health-check
+    networks:
+      - rentalcore-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:80/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
 
-  db:
+  db-health-check:
     image: mysql:8.0
-    container_name: rentalcore-db
-    restart: unless-stopped
+    container_name: rentalcore-db-check
+    command: >
+      sh -c "
+        echo 'Checking database connectivity...' &&
+        mysql -h $$DB_HOST -P $$DB_PORT -u $$DB_USERNAME -p $$DB_PASSWORD -e 'SELECT 1;' $$DB_NAME &&
+        echo 'Database is accessible!'
+      "
     environment:
-      MYSQL_DATABASE: vleky_db
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
-    volumes:
-      - db_data:/var/lib/mysql
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT:-3306}
+      - DB_NAME=${DB_NAME}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+    networks:
+      - rentalcore-network
+    restart: "no"
 
 volumes:
   rentalcore_uploads:
+    driver: local
   rentalcore_logs:
+    driver: local
   rentalcore_archives:
-  db_data:
+    driver: local
+
+networks:
+  rentalcore-network:
+    driver: bridge
