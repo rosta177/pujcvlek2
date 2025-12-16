@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  rentalcore:
+    build: .
+    ports:
+      - "8000:80"
+    environment:
+      DB_HOST: localhost
+      DB_PORT: 3306
+      DB_NAME: vleky_db
+      DB_USERNAME: root
+      DB_PASSWORD: ""
+      LOG_LEVEL: info
+      LOG_FILE: logs/app.log
+      GIN_MODE: debug
+    volumes:
+      - rentalcore_uploads:/app/uploads
+      - rentalcore_logs:/app/logs
+      - rentalcore_archives:/app/archives   depends_on
+      - db  # Pokud máš DB kontejner, jinak odstraň
+
+  db:  # MySQL kontejner, pokud nechceš použít XAMPP – pro lokální test
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: vleky_db
+      MYSQL_ROOT_PASSWORD: root  # Změň na silné heslo
+    volumes:
+      - db_data:/var/lib/mysql  # Persistent DB data
+
+volumes:
+  rentalcore_uploads:
+  rentalcore_logs:
+  rentalcore_archives:
+  db_data:
