@@ -15,11 +15,14 @@ services:
     
     environment:
       # Database Configuration
-      - DB_HOST=${DB_HOST}
-      - DB_PORT=${DB_PORT:-3306}
-      - DB_NAME=${DB_NAME}
-      - DB_USERNAME=${DB_USERNAME}
-      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST: db
+      - DB_PORT: 3306
+      - DB_NAME: vleky_db
+      - DB_USERNAME: root
+      - DB_PASSWORD: root
+      - ENCRYPTION_KEY: super_tajny_kluc_32_znaku_dlouhy_vymysli_si
+      - GIN_MODE: debug
+      - LOG_LEVEL: info
       
       # Server Configuration
       - SERVER_HOST=${SERVER_HOST:-0.0.0.0}
