@@ -9,7 +9,7 @@ services:
     container_name: rentalcore
     hostname: rentalcore
     restart: unless-stopped
-    
+    build: .  # Tohle je klíčové – build z lokální složky
     ports:
       - "8000:80"
     
