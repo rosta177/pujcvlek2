@@ -14,7 +14,7 @@ services:
       - DB_NAME=${DB_NAME}
       - DB_USERNAME=${DB_USERNAME}
       - DB_PASSWORD=${DB_PASSWORD}
-      - ENCRYPTION_KEY=${A3bCdE5fGh7iJk9L mN0pQr2S tUv4wXy6z}
+      - ENCRYPTION_KEY=${aNBJmkRKZfqcXK7XbWLtkDdgGKY8bmxq}
       - GIN_MODE=${GIN_MODE:-debug}
       - LOG_LEVEL=${LOG_LEVEL:-info}
       - SERVER_HOST=${SERVER_HOST:-0.0.0.0}
