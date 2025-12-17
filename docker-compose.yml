@@ -32,12 +32,14 @@ services:
       DB_HOST: db
       DB_PORT: "3306"
       DB_NAME: vleky_db
-      DB_USER: app
+      DB_USERNAME: app
       DB_PASSWORD: apppass
       TZ: Europe/Prague
     ports:
       - "8000:80"
     networks:
+      - rentalcore-network
+
       - rentalcore-network
 
 volumes:
