@@ -21,6 +21,7 @@ services:
       - rentalcore-network
 
   rentalcore:
+    command: ["./server", "server"]
     build:
       context: .
       dockerfile: Dockerfile

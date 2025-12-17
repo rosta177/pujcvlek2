@@ -55,7 +55,7 @@ RUN mkdir -p uploads logs archives && \
 USER appuser
 
 # Expose port
-EXPOSE 8080
+EXPOSE 80
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
