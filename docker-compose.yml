@@ -40,7 +40,6 @@ services:
     networks:
       - rentalcore-network
 
-      - rentalcore-network
 
 volumes:
   db_data:
